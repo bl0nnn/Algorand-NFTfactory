@@ -12,7 +12,16 @@ export async function deploy() {
     defaultSender: deployer.addr,
   })
 
-  const { appClient, result } = await factory.deploy({ onUpdate: 'append', onSchemaBreak: 'append' })
+  const { appClient, result } = await factory.deploy({
+    appName: factory.appName,
+    createParams: {
+      method: 'onCreate',
+      args: [],
+    },
+    onUpdate: 'append',
+    onSchemaBreak: 'append',
+    suppressLog: true,
+  })
 
   // If app was just created fund the app account
   if (['create', 'replace'].includes(result.operationPerformed)) {
@@ -23,11 +32,12 @@ export async function deploy() {
     })
   }
 
-  const method = 'hello'  
-  const response = await appClient.send.hello({
-    args: { name: 'world' },
+  const { appId, appAddress, appName } = appClient
+
+  console.table({
+    ['name']: appName,
+    ['id']: appId.toString(),
+    ['address']: appAddress.toString(),
+    ['deployer']: deployer.addr.toString(),
   })
-  console.log(
-    `Called ${method} on ${appClient.appClient.appName} (${appClient.appClient.appId}) with name = world, received: ${response.return}`,
-  )
 }

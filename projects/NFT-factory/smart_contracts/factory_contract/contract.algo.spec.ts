@@ -1,3 +1,5 @@
+/*
+
 import { TestExecutionContext } from '@algorandfoundation/algorand-typescript-testing'
 import { describe, expect, it } from 'vitest'
 import { FactoryContract } from './contract.algo'
@@ -12,3 +14,4 @@ describe('FactoryContract contract', () => {
     expect(result).toBe('Hello, Sally')
   })
 })
+*/
